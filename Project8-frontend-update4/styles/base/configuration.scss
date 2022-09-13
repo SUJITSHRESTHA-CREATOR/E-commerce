@@ -1,0 +1,18 @@
+// @use './base/mixins.scss';
+
+body,
+.p-component {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+}
+
+// ul {
+//     @include mixins.reset-list;
+//     margin: 0;
+//     padding: 0;
+//     list-style: none;
+// }

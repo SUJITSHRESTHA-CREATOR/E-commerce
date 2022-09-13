@@ -1,0 +1,347 @@
+<p-toast></p-toast>
+<div class="admin-page">
+    <p-card
+        [header]="editMode ? 'Edit Product' : 'Add Product'"
+        subheader="You can add or edit products here"
+        >Content
+        <div class="grid mb-5">
+            <div class="col-12">
+                <p-toolbar>
+                    <div class="p-toolbar-group-right"></div>
+
+                    <div class="p-toolbar-group-left">
+                        <p-button
+                            styleClass="p-button-primary mr-2"
+                            [label]="editMode ? 'Update' : 'Create'"
+                            icon="pi pi-plus"
+                            (click)="onSubmit()"
+                        ></p-button>
+                        <p-button
+                            styleClass="p-button-secondary"
+                            label="Cancel"
+                            icon="pi pi-arrow-circle-left"
+                            (click)="onCancel()"
+                        ></p-button>
+                    </div>
+                </p-toolbar>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <form [formGroup]="form">
+                    <div class="card">
+                        <div class="formgrid grid">
+                            <div class="field col">
+                                <label for="name">Name</label>
+                                <input
+                                    formControlName="name"
+                                    id="name"
+                                    type="text"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                />
+                                <small
+                                    *ngIf="productForm.name.invalid && isSubmitted"
+                                    class="p-error"
+                                    >Name is required!</small
+                                >
+                            </div>
+                            <div class="field col">
+                                <label for="brand">Brand</label>
+                                <input
+                                    formControlName="brand"
+                                    id="brand"
+                                    type="text"
+                                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                                />
+                                <small
+                                    *ngIf="productForm.brand.invalid && isSubmitted"
+                                    class="p-error"
+                                    >Brand is required!</small
+                                >
+                            </div>
+                            <div class="field col">
+                                <label for="price">Price</label> <br />
+                                <p-inputNumber
+                                    formControlName="price"
+                                    mode="decimal"
+                                    inputId="price"
+                                    [useGrouping]="false"
+                                >
+                                </p-inputNumber>
+                                <br />
+                                <small
+                                    *ngIf="productForm.price.invalid && isSubmitted"
+                                    class="p-error"
+                                    >Price is required!</small
+                                >
+                            </div>
+
+                            <div class="field col">
+                                <label for="priceMax">Maximum Price</label> <br />
+                                <p-inputNumber
+                                    formControlName="priceMax"
+                                    mode="decimal"
+                                    inputId="priceMaximum"
+                                    [useGrouping]="false"
+                                >
+                                </p-inputNumber>
+                                <br />
+                                <small
+                                    *ngIf="productForm.priceMax.invalid && isSubmitted"
+                                    class="p-error"
+                                    >Maximum Price is required!</small
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div div class="formgrid grid">
+                        <div class="field col">
+                            <label for="countInStock">Count In Stock</label> <br />
+                            <p-inputNumber
+                                formControlName="countInStock"
+                                mode="decimal"
+                                inputId="count"
+                                [useGrouping]="false"
+                            >
+                            </p-inputNumber
+                            ><br />
+                            <small
+                                *ngIf="productForm.countInStock.invalid && isSubmitted"
+                                class="p-error"
+                                >Count In Stock is required!</small
+                            >
+                        </div>
+                        <div class="field col">
+                            <label for="Category">category</label> <br />
+                            <p-dropdown
+                                [options]="categories"
+                                formControlName="category"
+                                optionLabel="name"
+                                optionValue="id"
+                            ></p-dropdown>
+
+                            <small
+                                *ngIf="productForm.category.invalid && isSubmitted"
+                                class="p-error"
+                                >Category is required!</small
+                            >
+                        </div>
+                        <div class="field col">
+                            <label for="isFeatured">Is Featured</label> <br />
+                            <p-inputSwitch formControlName="isFeatured"></p-inputSwitch>
+                        </div>
+                    </div>
+
+                    <div div class="formgrid grid">
+                        <div class="field col">
+                            <label for="thresholdCount">Views Threshold</label> <br />
+                            <p-inputNumber
+                                formControlName="thresholdCount"
+                                mode="decimal"
+                                inputId="viewsThreshold"
+                                [useGrouping]="false"
+                            >
+                            </p-inputNumber
+                            ><br />
+                            <small
+                                *ngIf="productForm.thresholdCount.invalid && isSubmitted"
+                                class="p-error"
+                                >Views Threshold is required!</small
+                            >
+                        </div>
+
+                        <div class="field col">
+                            <label for="timeCount">Time limit(seconds)</label> <br />
+                            <p-inputNumber
+                                formControlName="timeCount"
+                                mode="decimal"
+                                inputId="TimeCount"
+                                [useGrouping]="false"
+                            >
+                            </p-inputNumber
+                            ><br />
+                            <small
+                                *ngIf="productForm.timeCount.invalid && isSubmitted"
+                                class="p-error"
+                                >Time limit is required!</small
+                            >
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="description">Description</label> <br />
+                        <textarea
+                            pInputTextarea
+                            formControlName="description"
+                            [rows]="7"
+                            [cols]="120"
+                        ></textarea>
+                        <br />
+                        <small
+                            *ngIf="productForm.description.invalid && isSubmitted"
+                            class="p-error"
+                            >Description is required!</small
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="keywords">Keywords</label> <br />
+                        <textarea
+                            pInputTextarea
+                            formControlName="keywords"
+                            [rows]="7"
+                            [cols]="120"
+                        ></textarea>
+                        <br />
+                        <small
+                            *ngIf="productForm.keywords.invalid && isSubmitted"
+                            class="p-error"
+                            >Keyword is required! and minlength is 3</small
+                        >
+                    </div>
+                    <div class="field">
+                        <label for="richDescription">Product Details</label> <br />
+                        <p-editor
+                            formControlName="richDescription"
+                            [style]="{ height: '320px' }"
+                        ></p-editor>
+                    </div>
+                    <div class="field">
+                        <label for="name">Main Image</label> <br />
+                        <input
+                            type="file"
+                            class="p-inputtext"
+                            accept="image/*"
+                            (change)="onImageUpload($event)"
+                        /><br />
+                        <small
+                            *ngIf="productForm.image.invalid && isSubmitted"
+                            class="p-error"
+                            >Image is required!</small
+                        >
+                        <div class="col-2 mt-2 pl-0">
+                            <img style="width: 60%" [src]="imageDisplay" alt="" />
+                        </div>
+                        <br />
+                        <br />
+                        <div *ngIf="editMode">
+                            <label for="name">Secondary Images</label> <br />
+                            <br />
+                            <input
+                                type="file"
+                                class="p-inputtext"
+                                (change)="onImages($event)"
+                                multiple
+                            />
+                            <!-- <p-button
+                                styleClass="p-button-primary mr-2"
+                                label="Add Images"
+                                icon="pi pi-plus"
+                                (click)="onSubmitImages()"
+                            ></p-button> -->
+                        </div>
+                        <div
+                            class="col-2 mt-2 pl-0"
+                            *ngFor="let imageDisplay1 of imageDisplays"
+                        >
+                            <img style="width: 80px" [src]="imageDisplay1" alt="" />
+                            <br />
+                        </div>
+                    </div>
+                    <br />
+                    <div *ngIf="editMode">
+                        <h2>Map Product Availability</h2>
+                        <div class="p-toolbar-group-left">
+                            <p-button
+                                styleClass="p-button-primary mr-2"
+                                label="Update"
+                                icon="pi pi-plus"
+                                (click)="onLocUpdate()"
+                            ></p-button>
+                            <p-button
+                                styleClass="p-button-secondary mr-2"
+                                label="Clear"
+                                icon="pi pi-trash"
+                                (click)="onClear()"
+                            ></p-button>
+                            <p-button
+                                styleClass="p-button-danger"
+                                label="Delete"
+                                icon="pi pi-trash"
+                                (click)="onDel()"
+                            ></p-button>
+                        </div>
+                        <br />
+                        <agm-map
+                            *ngIf="loaded"
+                            [zoom]="13"
+                            [latitude]="latitude_p"
+                            [longitude]="longitude_p"
+                            (mapClick)="onChooseLocation($event)"
+                        >
+                            <!-- <agm-marker
+                                *ngIf="locationChosen"
+                                [latitude]="latitude_p"
+                                [longitude]="longitude_p"
+                            >
+                            </agm-marker>
+                        </agm-map> -->
+                            <agm-marker
+                                *ngFor="let loc of myLocations.slice(1)"
+                                [latitude]="loc.lat"
+                                [longitude]="loc.lng"
+                                [agmFitBounds]="true"
+                            >
+                            </agm-marker>
+                        </agm-map>
+                        <br />
+                        <h2>Map Dynamic Pricing Area</h2>
+                        <div class="p-toolbar-group-left">
+                            <p-button
+                                styleClass="p-button-primary mr-2"
+                                label="Update"
+                                icon="pi pi-plus"
+                                (click)="onLocUpdate1()"
+                            ></p-button>
+                            <p-button
+                                styleClass="p-button-secondary mr-2"
+                                label="Clear"
+                                icon="pi pi-trash"
+                                (click)="onClear1()"
+                            ></p-button>
+                            <p-button
+                                styleClass="p-button-danger"
+                                label="Delete"
+                                icon="pi pi-trash"
+                                (click)="onDel1()"
+                            ></p-button>
+                        </div>
+                        <br />
+                        <agm-map
+                            *ngIf="loaded1"
+                            [zoom]="13"
+                            [latitude]="latitude_p1"
+                            [longitude]="longitude_p1"
+                            (mapClick)="onChooseLocation1($event)"
+                        >
+                            <!-- <agm-marker
+                                *ngIf="locationChosen"
+                                [latitude]="latitude_p"
+                                [longitude]="longitude_p"
+                            >
+                            </agm-marker>
+                        </agm-map> -->
+                            <agm-marker
+                                *ngFor="let loc of myLocations1.slice(1)"
+                                [latitude]="loc.lat"
+                                [longitude]="loc.lng"
+                                [agmFitBounds]="true"
+                            >
+                            </agm-marker>
+                        </agm-map>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </p-card>
+</div>

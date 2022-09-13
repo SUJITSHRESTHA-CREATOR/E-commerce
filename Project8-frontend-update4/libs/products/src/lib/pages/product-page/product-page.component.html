@@ -1,0 +1,118 @@
+<div class="product-page" *ngIf="product">
+    <div class="grid">
+        <div class="col-6">
+            <ui-gallery [images]="product.images"></ui-gallery>
+            <!-- <ui-gallery [images]="null"></ui-gallery> -->
+        </div>
+        <div class="col-6 product">
+            <h2 class="product-desc">{{ product.name }}</h2>
+            <p class="product-desc">
+                {{ product.description }}
+            </p>
+            <div class="product-rating">
+                <p-rating
+                    [(ngModel)]="model"
+                    [disabled]="notLoggedIn"
+                    (onRate)="rated($event)"
+                ></p-rating>
+                <h3 *ngIf="product.numReviews">({{ product.numReviews }}) Ratings</h3>
+            </div>
+            <div class="product-price">
+                {{ product.price | currency: 'INR':'symbol' }}
+                <span class="price-before">{{
+                    product.price + 18 | currency: 'INR':'symbol'
+                }}</span>
+            </div>
+            <div class="product-quantity">
+                <div class="field col-12 md:col-3 p-0">
+                    <label for="quantity">Quantity</label>
+                    <p-inputNumber
+                        [showButtons]="true"
+                        [(ngModel)]="quantity"
+                        inputId="minmax"
+                        inputId="quantity"
+                        mode="decimal"
+                        [min]="1"
+                        [max]="product.countInStock"
+                    >
+                    </p-inputNumber>
+                </div>
+            </div>
+            <div class="product-actions">
+                <!-- <button
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Buy Now"
+                    class="p-button-rounded mr-2"
+                ></button> -->
+                <button
+                    *ngIf="available"
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Add to Cart"
+                    class="p-button-rounded"
+                    (click)="addProductToCart()"
+                ></button>
+                <h2 *ngIf="!available">Currently Out of Stock</h2>
+            </div>
+        </div>
+    </div>
+    <div class="grid product-rich-desc">
+        <div class="col-12">
+            <div [innerHTML]="product.richDescription"></div>
+        </div>
+    </div>
+    <br />
+    <h2>Reviews:</h2>
+    <hr />
+    <br />
+    <br />
+    <div *ngIf="!notLoggedIn">
+        <p-avatar
+            icon="pi pi-user"
+            styleClass="mr-5"
+            size="large"
+            shape="circle"
+        ></p-avatar>
+
+        <textarea
+            placeholder="Write something..."
+            rows="1"
+            cols="150"
+            pInputTextarea
+            autoResize="autoResize"
+            [(ngModel)]="text"
+        ></textarea>
+
+        <div class="grid">
+            <div class="col-11">
+                <p>
+                    <b>{{ nameOfUser }}</b>
+                </p>
+            </div>
+            <p-button label="Post" (onClick)="postReview($event)"></p-button>
+        </div>
+    </div>
+
+    <div *ngFor="let reviewItem of arrayReviews">
+        <div class="grid">
+            <div>
+                <p-avatar
+                    styleClass="mr-5 ml-3"
+                    [label]="reviewItem.name"
+                    size="large"
+                    shape="circle"
+                    [style]="{ 'background-color': '#2196F3', color: '#ffffff' }"
+                ></p-avatar>
+            </div>
+            <div>
+                <p>
+                    {{ reviewItem.review }}
+                </p>
+            </div>
+        </div>
+        <p></p>
+    </div>
+</div>

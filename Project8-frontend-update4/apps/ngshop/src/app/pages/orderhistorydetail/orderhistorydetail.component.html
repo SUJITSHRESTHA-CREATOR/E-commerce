@@ -1,0 +1,102 @@
+<p-toast></p-toast>
+<div class="admin-page" *ngIf="order">
+    <p-card [header]="'View Order'" subheader="You can edit order status here">
+        <p-fieldset legend="Order Details" styleClass="mb-4" [toggleable]="true">
+            <div class="grid">
+                <div class="col-4">
+                    <h5>Order Id</h5>
+                    <p>{{ order.id }}</p>
+                </div>
+                <div class="col-4">
+                    <h5>Order Date</h5>
+                    <p>{{ order.dateOrdered | date: 'short' }}</p>
+                </div>
+                <!-- <div class="col-4">
+                    <h5>Order Status</h5>
+                    <br />
+                    <p>{{ name }}</p>
+                    <p>
+                        <p-dropdown
+                        [options]="orderStatuses"
+                        optionLabel="name"
+                        optionValue="id"
+                        [(ngModel)]="selectedStatus"
+                    ></p-dropdown> -->
+                <!-- <p-button [label]="name"></p-button> -->
+                <!-- </p>-->
+                <!--</div> -->
+                <br />
+
+                <div class="col-4">
+                    <h5>Order Total Price(Final price paid at that time)</h5>
+                    <p>{{ order.totalPrice | currency: 'INR':'symbol' }}</p>
+                </div>
+            </div>
+        </p-fieldset>
+        <br />
+        <br />
+        <p-fieldset legend="Order Items" styleClass="mb-4" [toggleable]="true">
+            <div class="grid mb-5">
+                <div class="col-2 font-bold">Name</div>
+                <div class="col-2 font-bold">Brand</div>
+                <div class="col-2 font-bold">Category</div>
+                <div class="col-2 font-bold">Price</div>
+                <div class="col-2 font-bold">Quantity</div>
+                <div class="col-2 font-bold">Subtotal(Present price)</div>
+            </div>
+            <div class="grid mb-5" *ngFor="let orderItem of order.orderItems">
+                <div class="col-2">{{ orderItem.product.name }}</div>
+                <div class="col-2">{{ orderItem.product.brand }}</div>
+                <div class="col-2">{{ orderItem.product.category.name }}</div>
+                <div class="col-2">
+                    {{ orderItem.product.price | currency: 'INR':'symbol' }}
+                </div>
+                <div class="col-2">{{ orderItem.quantity }}</div>
+                <div class="col-2">
+                    {{
+                        orderItem.product.price * orderItem.quantity
+                            | currency: 'INR':'symbol'
+                    }}
+                </div>
+            </div>
+            <div class="grid" style="color: green">
+                <div class="col-2 col-offset-8 font-bold">Total Price</div>
+                <div class="col-2 font-bold">
+                    {{ order.totalPrice | currency: 'INR':'symbol' }}(Final price paid)
+                </div>
+            </div>
+        </p-fieldset>
+        <p-fieldset legend="Order Address" styleClass="mb-4" [toggleable]="true">
+            <div class="grid">
+                <div class="col-4">
+                    <h5>Order Address</h5>
+                    <p>
+                        {{ order.shippingAddress1 }} <br />
+                        {{ order.shippingAddress2 }}<br />
+                        {{ order.zip }} {{ order.city }}<br />
+                        {{ order.country }}
+                    </p>
+                </div>
+                <div class="col-4">
+                    <h5>Customer Info</h5>
+                    <p>{{ order.user.name }}</p>
+                </div>
+                <div class="col-4">
+                    <h5>Contact Info</h5>
+                    <p>{{ order.phone }}</p>
+                </div>
+            </div>
+        </p-fieldset>
+        <h2>Delivery Location</h2>
+        <br />
+        <agm-map
+            *ngIf="locationChosen"
+            [zoom]="13"
+            [latitude]="latitude_p"
+            [longitude]="longitude_p"
+        >
+            <agm-marker *ngIf="marked" [latitude]="latitude_p" [longitude]="longitude_p">
+            </agm-marker>
+        </agm-map>
+    </p-card>
+</div>

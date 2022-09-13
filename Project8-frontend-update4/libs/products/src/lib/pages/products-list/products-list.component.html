@@ -1,0 +1,40 @@
+<div class="products-page">
+    <div class="col-4 search">
+        <div class="products-search">
+            <i class="pi pi-search"></i>
+            <input
+                type="text"
+                [(ngModel)]="filteredProd"
+                placeholder="Find products"
+                class="products-search-input"
+                name="search"
+                id="search"
+            />
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-3" *ngIf="!isCategoryPage">
+            <h4>Categories</h4>
+            <div class="field-checkbox" *ngFor="let category of categories">
+                <p-checkbox
+                    [(ngModel)]="category.checked"
+                    [binary]="true"
+                    [inputId]="category.id"
+                    (onChange)="categoryFilter()"
+                ></p-checkbox>
+                <label for="{{ category.id }}">{{ category.name }}</label>
+            </div>
+        </div>
+        <div [ngClass]="{ 'col-9': !isCategoryPage, 'col-12': isCategoryPage }">
+            <div class="grid" *ngIf="products">
+                <div
+                    [ngClass]="{ 'col-4': !isCategoryPage, 'col-3': isCategoryPage }"
+                    *ngFor="let product of products | filter: filteredProd"
+                >
+                    <products-product-item [product]="product"></products-product-item>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
